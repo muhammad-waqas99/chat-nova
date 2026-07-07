@@ -1,12 +1,36 @@
-import express from 'express'
-import dotenv from 'dotenv/config'
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import { connectDB } from "./lib/db.js";
+import dns from "dns";
 
-const app = express() ;
-const PORT = process.env.PORT || 5000;
+dns.setServers(['8.8.8.8','1.1.1.1'])
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 3000;
 
 
+app.use(cors());
+app.use(express.json());
 
 
-app.listen(PORT , ()=>
-    console.log(`Server is up and running on PORT ${PORT}`)
-)
+app.get("/health", (req, res) => {
+  res.status(200).json({ ok: true });
+});
+
+
+async function startServer() {
+  try {
+    await connectDB();
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
+});
+  } catch (err) {
+    console.error("Server failed to start:", err.message);
+    process.exit(1);
+  }
+}
+
+startServer();
