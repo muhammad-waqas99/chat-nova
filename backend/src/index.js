@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import { clerkMiddleware } from '@clerk/express'
 import dotenv from "dotenv";
 import { connectDB } from "./lib/db.js";
 import dns from "dns";
@@ -10,8 +11,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-
-app.use(cors());
+app.use(clerkMiddleware())
+app.use(cors({origin : process.env.FRONTEND_URL , credentials : true}));
 app.use(express.json());
 
 
