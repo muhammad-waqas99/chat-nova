@@ -18,9 +18,15 @@ RUN npm run build
 # This backend is ESM JavaScript, so npm run build copies src/ to dist/.
 FROM node:22-bookworm-slim AS backend-build
 WORKDIR /app
+
 COPY backend/package.json backend/package-lock.json ./
+
+ENV NODE_ENV=development
+
 RUN npm install --no-audit --no-fund
+
 COPY backend/ ./
+
 RUN npm run build
 
 # --- Stage 3: runtime image (only prod deps + built assets) ---
