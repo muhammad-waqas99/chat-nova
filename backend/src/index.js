@@ -7,6 +7,7 @@ import dns from "dns";
 import path from "path"
 import fs from "fs"
 import clerkWebhook from "./webhooks/clerk.webhook.js";
+import authRoutes from "./routes/auth.route.js"
 
 
 const publicDir = path.join(process.cwd() , "public")
@@ -27,7 +28,12 @@ app.use(cors({origin : process.env.FRONTEND_URL , credentials : true}));
 app.use(express.json());
 
 
+app.get("/health", (req, res) => {
+  res.status(200).json({ ok: true });
+});
 
+
+app.use('/api/auth' , authRoutes)
 
 if (fs.existsSync(publicDir)){
 
@@ -36,9 +42,7 @@ if (fs.existsSync(publicDir)){
         res.sendFile(path.join(publicDir, "index.html") , (err) => next(err))
   })
 }
-app.get("/health", (req, res) => {
-  res.status(200).json({ ok: true });
-});
+
 
 
 
