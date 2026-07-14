@@ -8,6 +8,7 @@ import path from "path"
 import fs from "fs"
 import clerkWebhook from "./webhooks/clerk.webhook.js";
 import authRoutes from "./routes/auth.route.js"
+import messageRoutes from "./routes/message.route.js"
 
 
 const publicDir = path.join(process.cwd() , "public")
@@ -34,6 +35,7 @@ app.get("/health", (req, res) => {
 
 
 app.use('/api/auth' , authRoutes)
+app.use('/api/message' , messageRoutes)
 
 if (fs.existsSync(publicDir)){
 
