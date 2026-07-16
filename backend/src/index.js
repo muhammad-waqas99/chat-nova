@@ -1,7 +1,9 @@
+import "dotenv/config";
+
 import express from "express";
 import cors from "cors";
 import { clerkMiddleware } from '@clerk/express'
-import dotenv from "dotenv";
+;
 import { connectDB } from "./lib/db.js";
 import dns from "dns";
 import path from "path"
@@ -14,7 +16,7 @@ import messageRoutes from "./routes/message.route.js"
 const publicDir = path.join(process.cwd() , "public")
 
 dns.setServers(['8.8.8.8','1.1.1.1'])
-dotenv.config();
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
