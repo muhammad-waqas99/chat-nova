@@ -11,14 +11,13 @@ import fs from "fs"
 import clerkWebhook from "./webhooks/clerk.webhook.js";
 import authRoutes from "./routes/auth.route.js"
 import messageRoutes from "./routes/message.route.js"
-
+import {app , server } from "./lib/socket.js"
 
 const publicDir = path.join(process.cwd() , "public")
 
 dns.setServers(['8.8.8.8','1.1.1.1'])
 
 
-const app = express();
 const PORT = process.env.PORT || 3000;
 
 
@@ -57,7 +56,7 @@ async function startServer() {
   try {
     await connectDB();
 
-app.listen(PORT, '0.0.0.0', () => {
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });
   } catch (err) {
